@@ -52,3 +52,4 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   </SmoothScrollWrapper>
 )
 }
+//hello
