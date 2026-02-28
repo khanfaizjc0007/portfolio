@@ -1,17 +1,21 @@
-// app/work/[slug]/page.tsx
-
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import dynamic from "next/dynamic"
 import { Navbar } from "@/components/navbar"
 import { CustomCursor } from "@/components/custom-cursor"
-import { SmoothScroll } from "@/components/smooth-scroll"
 import { ProjectDetail } from "@/components/project-detail"
 import { Footer } from "@/components/footer"
 import { client } from "@/sanity/lib/client"
 import { PROJECT_BY_SLUG_QUERY, ALL_PROJECT_SLUGS_QUERY } from "@/sanity/lib/queries"
 
+// Fix: dynamic import with ssr: false to prevent Lenis SSR crash
+const SmoothScroll = dynamic(
+  () => import("@/components/smooth-scroll").then(mod => ({ default: mod.SmoothScroll })),
+  { ssr: false, loading: () => <></> }
+)
+
 interface ProjectPageProps {
-  params: Promise<{ slug: string }>  // ✅ Promise type
+  params: Promise<{ slug: string }>
 }
 
 export async function generateStaticParams() {
@@ -20,7 +24,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
-  const { slug } = await params  // ✅ await first
+  const { slug } = await params
   const project = await client.fetch(PROJECT_BY_SLUG_QUERY, { slug })
 
   if (!project) return { title: "Project Not Found" }
@@ -37,7 +41,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
 }
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
-  const { slug } = await params  // ✅ await first
+  const { slug } = await params
   const project = await client.fetch(PROJECT_BY_SLUG_QUERY, { slug })
 
   if (!project) notFound()
