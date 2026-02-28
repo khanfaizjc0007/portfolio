@@ -8,12 +8,7 @@ import { Footer } from "@/components/footer"
 import { client } from "@/sanity/lib/client"
 import { PROJECT_BY_SLUG_QUERY, ALL_PROJECT_SLUGS_QUERY } from "@/sanity/lib/queries"
 
-// Fix: dynamic import with ssr: false to prevent Lenis SSR crash
-const SmoothScroll = dynamic(
-  () => import("@/components/smooth-scroll").then(mod => ({ default: mod.SmoothScroll })),
-  { ssr: false, loading: () => <></> }
-)
-
+import { SmoothScrollWrapper } from "@/components/smooth-scroll-wrapper"
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
 }
@@ -47,13 +42,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   if (!project) notFound()
 
   return (
-    <SmoothScroll>
-      <CustomCursor />
-      <Navbar />
-      <main>
-        <ProjectDetail project={project} />
-        <Footer />
-      </main>
-    </SmoothScroll>
-  )
+    <SmoothScrollWrapper>
+    <CustomCursor />
+    <Navbar />
+    <main>
+      <ProjectDetail project={project} />
+      <Footer />
+    </main>
+  </SmoothScrollWrapper>
+)
 }
