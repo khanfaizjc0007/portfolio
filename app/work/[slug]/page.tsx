@@ -8,7 +8,7 @@ import { Footer } from "@/components/footer"
 import { client } from "@/sanity/lib/client"
 import { PROJECT_BY_SLUG_QUERY, ALL_PROJECT_SLUGS_QUERY } from "@/sanity/lib/queries"
 
-import { SmoothScrollWrapper } from "@/components/smooth-scroll-wrapper"
+import { SmoothScroll } from "@/components/smooth-scroll"
 interface ProjectPageProps {
   params: Promise<{ slug: string }>
 }
@@ -41,15 +41,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
   if (!project) notFound()
 
-  return (
-    <SmoothScrollWrapper>
+ return (
+  <SmoothScroll>
     <CustomCursor />
     <Navbar />
     <main>
       <ProjectDetail project={project} />
       <Footer />
     </main>
-  </SmoothScrollWrapper>
+  </SmoothScroll>
 )
 }
 //hello
