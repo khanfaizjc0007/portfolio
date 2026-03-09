@@ -1,6 +1,5 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import dynamic from "next/dynamic"
 import { Navbar } from "@/components/navbar"
 import { CustomCursor } from "@/components/custom-cursor"
 import { ProjectDetail } from "@/components/project-detail"
